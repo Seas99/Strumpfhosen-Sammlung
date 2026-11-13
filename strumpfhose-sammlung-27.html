@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="theme-color" content="#faf6f2" id="themeColor">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Strumpfhosen">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30 10 Q35 5 40 10 L42 40 Q45 55 38 70 L35 85 Q32 95 40 98 L60 98 Q68 95 65 85 L62 70 Q55 55 58 40 L60 10 Q65 5 70 10 L70 25 Q68 35 60 40 L60 55 Q65 70 55 85 L55 98 L45 98 L45 85 Q35 70 40 55 L40 40 Q32 35 30 25 Z' fill='%23c17a7a'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30 10 Q35 5 40 10 L42 40 Q45 55 38 70 L35 85 Q32 95 40 98 L60 98 Q68 95 65 85 L62 70 Q55 55 58 40 L60 10 Q65 5 70 10 L70 25 Q68 35 60 40 L60 55 Q65 70 55 85 L55 98 L45 98 L45 85 Q35 70 40 55 L40 40 Q32 35 30 25 Z' fill='%23c17a7a'/%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/json,{"name":"Strumpfhose Sammlung","short_name":"Strumpfhosen","start_url":".","display":"standalone","background_color":"#faf6f2","theme_color":"#c17a7a","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M30 10 Q35 5 40 10 L42 40 Q45 55 38 70 L35 85 Q32 95 40 98 L60 98 Q68 95 65 85 L62 70 Q55 55 58 40 L60 10 Q65 5 70 10 L70 25 Q68 35 60 40 L60 55 Q65 70 55 85 L55 98 L45 98 L45 85 Q35 70 40 55 L40 40 Q32 35 30 25 Z' fill='%23c17a7a'/%3E%3C/svg%3E","sizes":"any","type":"image/svg+xml"}]}">
+<title>Strumpfhose Sammlung</title>
+<style>
+:root {
+  --bg: #faf6f2;
+  --card: #fffdfb;
+  --accent: #c17a7a;
+  --accent2: #a89a8c;
+  --text: #3d2f2f;
+  --muted: #8a7a72;
+  --border: #e8ddd4;
+  --success: #6b8e6b;
+}
+[data-theme="dark"] {
+  --bg: #1a1614;
+  --card: #2a2422;
+  --accent: #d4a5a5;
+  --accent2: #8a7a72;
+  --text: #f0e8e4;
+  --muted: #b0a09a;
+  --border: #3a3230;
+  --success: #7caf7c;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(180deg, var(--bg) 0%, #f3ebe4 100%);
+  color: var(--text);
+  padding: 12px;
+  padding-bottom: 80px;
+  line-height: 1.4;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+[data-theme="dark"] body {
+  background: linear-gradient(180deg, #1a1614 0%, #221c1a 100%);
+}
+header { text-align: center; margin-bottom: 16px; position: relative; }
+header h1 { 
+  font-size: 1.6rem; 
+  color: var(--accent); 
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.theme-toggle {
+  position: absolute; right: 0; top: 0;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 10px; font-size: 0.8rem; cursor: pointer;
+}
+.summary {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(193, 122, 122, 0.08);
+}
+.summary div { flex: 1; }
+.summary .label { font-size: 0.75rem; color: var(--muted); }
+.summary .value { font-size: 1.3rem; font-weight: bold; color: var(--success); }
+.stats {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+.controls { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.controls input[type="text"], .controls select { flex: 1; min-width: 120px; }
+button, select, input, textarea {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+button { background: var(--accent); border: none; color: white; font-weight: 600; cursor: pointer; }
+button.secondary { background: var(--accent2); }
+.list { display: flex; flex-direction: column; gap: 10px; }
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.thumbs { display: flex; gap: 4px; flex-shrink: 0; }
+.thumbs img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
+.color-dot {
+  width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.info { flex: 1; }
+.info h3 { font-size: 1rem; margin-bottom: 2px; color: var(--text); }
+.info .meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+.prices { display: flex; gap: 12px; font-size: 0.85rem; }
+.prices span { font-weight: 600; }
+.actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.actions button { padding: 4px 10px; font-size: 0.75rem; }
+.modal {
+  display: none; position: fixed; inset: 0; background: rgba(61, 47, 47, 0.4);
+  z-index: 100; align-items: center; justify-content: center; padding: 16px;
+}
+.modal.show { display: flex; }
+.modal-content {
+  background: var(--card); border-radius: 20px; padding: 16px; width: 100%;
+  max-width: 420px; max-height: 85vh; overflow-y: auto;
+  border: 1px solid var(--border);
+  padding-bottom: 100px;
+}
+.form-actions {
+  display: flex; gap: 8px; margin-top: 12px;
+  position: sticky; bottom: 0; background: var(--card);
+  padding: 12px 0; z-index: 10;
+}
+.form-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; }
+.form-actions { display: flex; gap: 8px; margin-top: 12px; }
+.form-actions button { flex: 1; }
+.photo-controls { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.photo-controls label { flex: 1; text-align: center; font-size: 0.85rem; }
+.photo-preview { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+.photo-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; }
+#ocrStatus { font-size: 0.8rem; color: var(--muted); margin: 6px 0; min-height: 1.2em; }
+.table-wrap { overflow-x: auto; background: var(--card); border-radius: 16px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--border); }
+th { background: var(--card); font-weight: 600; position: sticky; top: 0; cursor: pointer; user-select: none; }
+th:hover { background: var(--border); }
+td.actions { white-space: nowrap; }
+.view-toggle { display: flex; gap: 4px; }
+.view-toggle button { padding: 6px 10px; font-size: 0.8rem; }
+.view-toggle button.active { background: var(--accent); }
+.export-import { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.export-import button { font-size: 0.8rem; padding: 6px 10px; }
+.tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.tabs button { flex: 1; }
+.tabs button.active { background: var(--accent); }
+.image-lightbox {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+  z-index: 200; align-items: center; justify-content: center; padding: 20px;
+}
+.card.removed { opacity: 0.55; }
+.card.removed .info h3::after { content: " (entfernt)"; font-size: 0.75rem; color: var(--muted); font-weight: normal; }
+tr.removed { opacity: 0.55; }
+.image-lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Strumpfhose Sammlung</h1>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+</header>
+<div id="localHint" style="display:none; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 14px; margin-bottom:12px; font-size:0.8rem; color:var(--muted); text-align:center;">
+  Lokale Datei erkannt. Tippe im Chrome-Menü auf „Zum Startbildschirm hinzufügen“, um die App als Icon zu speichern. Alle Daten bleiben auf diesem Gerät gespeichert.
+</div>
+
+<div class="tabs">
+  <button id="tabCollection" class="active" onclick="setTab('collection')">Sammlung</button>
+  <button id="tabWishlist" onclick="setTab('wishlist')">Wishlist</button>
+  <button id="tabCalendar" onclick="setTab('calendar')">Käufe</button>
+</div>
+
+<div class="summary">
+  <div><div class="label">Aktuelle Sammlung</div><div class="value" id="totalCount">0</div></div>
+  <div><div class="label">Wert (offiziell)</div><div class="value" id="totalOfficial">0 €</div></div>
+  <div><div class="label">Bezahlt (aktuell)</div><div class="value" id="totalPaid">0 €</div></div>
+</div>
+<div class="summary" style="margin-top:-8px;">
+  <div><div class="label">Gesamter Aufwand</div><div class="value" id="totalSpentAll">0 €</div></div>
+  <div><div class="label">Gespart gesamt</div><div class="value" id="totalSavedAll">0 €</div></div>
+  <div><div class="label">Entfernt</div><div class="value" id="removedCount">0</div></div>
+</div>
+
+<div class="stats" id="statsBar"></div>
+
+<div class="controls" id="collectionControls">
+  <input type="text" id="searchInput" placeholder="Suche (Name, Farbe, Notizen, Laden…)" oninput="render()">
+  <select id="filterManufacturer" onchange="render()">
+    <option value="">Alle Hersteller</option>
+  </select>
+  <select id="filterDen" onchange="render()">
+    <option value="">Alle Den</option>
+  </select>
+  <select id="filterColor" onchange="render()">
+    <option value="">Alle Farben</option>
+  </select>
+  <select id="sortSelect" onchange="render()">
+    <option value="name">Nach Name</option>
+    <option value="manufacturer">Nach Hersteller</option>
+    <option value="den">Nach Den</option>
+    <option value="price">Nach Preis (bezahlt)</option>
+  </select>
+  <button class="secondary" onclick="resetFilters()">Filter zurücksetzen</button>
+  <div class="view-toggle">
+    <button id="btnCards" class="active" onclick="setView('cards')">Karten</button>
+    <button id="btnList" onclick="setView('list')">Liste</button>
+  </div>
+  <button onclick="openModal()">+ Neu</button>
+</div>
+
+<div class="export-import">
+  <button class="secondary" onclick="exportData('json')">Export JSON (gefiltert)</button>
+  <button class="secondary" onclick="exportData('csv')">Export CSV (gefiltert)</button>
+  <button class="secondary" onclick="document.getElementById('importFile').click()">Import JSON</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+  <button class="secondary" onclick="showBackups()">Backups anzeigen</button>
+</div>
+
+<div id="listContainer"></div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle">Eintrag</h2>
+    <form id="form" onsubmit="saveItem(event)">
+      <input type="hidden" id="editId">
+      
+      <div class="photo-controls">
+        <label>
+          Vorderseite wählen<br>
+          <input type="file" accept="image/*" onchange="previewFromFile(this, 'front')" style="margin-top:4px; width:100%;">
+        </label>
+        <label>
+          Rückseite wählen<br>
+          <input type="file" accept="image/*" onchange="previewFromFile(this, 'back')" style="margin-top:4px; width:100%;">
+        </label>
+        <label>
+          Weitere Fotos<br>
+          <input type="file" accept="image/*" multiple onchange="previewFromFile(this, 'extra')" style="margin-top:4px; width:100%;">
+        </label>
+      </div>
+      <div class="photo-preview" id="photoPreview"></div>
+      <button type="button" class="secondary" onclick="runOCR()" style="width:100%; margin-bottom:10px;">Daten aus Fotos auslesen (OCR)</button>
+      <div id="ocrStatus"></div>
+
+      <div class="form-group"><label>Kategorie</label>
+        <select id="category">
+          <option value="Strumpfhose">Strumpfhose</option>
+          <option value="Strumpfhose ouvert">Strumpfhose ouvert</option>
+          <option value="Strümpfe">Strümpfe</option>
+          <option value="Kniestrümpfe">Kniestrümpfe</option>
+          <option value="Söckchen">Söckchen</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Hersteller</label><input id="manufacturer" required></div>
+      <div class="form-group"><label>Name / Modell</label><input id="name" required></div>
+      <div class="form-group"><label>Farbe</label><input id="color" placeholder="z.B. Nude, Schwarz, Beige"></div>
+      <div class="form-group"><label>Den-Stärke</label><input id="den" type="number" min="1" max="100"></div>
+      <div class="form-group"><label>Größe</label><input id="size" placeholder="z.B. M, 3, 40-42"></div>
+      <div class="form-group"><label>Offizieller Preis (€)</label><input id="officialPrice" type="number" step="0.01" min="0"></div>
+      <div class="form-group">
+        <label>Kaufhistorie (Datum, Preis, Stückzahl)</label>
+        <div id="priceHistoryList" style="margin-bottom:8px; font-size:0.85rem;"></div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <input type="date" id="newHistDate" style="flex:1; min-width:120px;">
+          <input type="number" id="newHistPrice" step="0.01" min="0" placeholder="Preis €" style="flex:1; min-width:80px;">
+          <input type="number" id="newHistQty" min="1" value="1" placeholder="Stk" style="width:60px;">
+          <button type="button" class="secondary" onclick="addPriceHistory()">+</button>
+        </div>
+      </div>
+      <div class="form-group"><label>Durchschnittlich bezahlt (automatisch)</label><input id="paidPrice" type="number" step="0.01" min="0" readonly style="background:#f5f5f5;"></div>
+      <div class="form-group"><label>Stückzahl gesamt (automatisch)</label><input id="quantity" type="number" min="1" readonly style="background:#f5f5f5;"></div>
+      <div class="form-group"><label>Laden / Quelle</label><input id="store" placeholder="z.B. Calzedonia, Online"></div>
+      <div class="form-group"><label>Zustand</label>
+        <select id="condition">
+          <option value="">–</option>
+          <option value="neu">Neu</option>
+          <option value="getragen">Getragen</option>
+          <option value="beschädigt">Beschädigt</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Getragen (Anzahl)</label><input id="wearCount" type="number" min="0" value="0"></div>
+      <div class="form-group"><label>Notizen</label><textarea id="notes" rows="2"></textarea></div>
+      <div class="form-actions">
+        <button type="button" class="secondary" onclick="closeModal()">Abbrechen</button>
+        <button type="submit">Speichern</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="image-lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" alt="Vorschau">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+const STORAGE_KEY = "strumpfhose_sammlung_v10";
+const BACKUP_KEY = "strumpfhose_backup";
+
+const defaultItems = [
+  { id: 1, manufacturer: "Calzedonia", name: "Total Shaper 20 (Back-seam, Push-up)", color: "Nude/Schwarz", den: 20, size: "", quantity: 1, officialPrice: 14.95, paidPrice: 3.45, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 2, manufacturer: "Calzedonia", name: "Totally Invisible 20", color: "Nude", den: 20, size: "", quantity: 1, officialPrice: 16.95, paidPrice: 3.20, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 3, manufacturer: "Kunert", name: "Perfect Shine 15", color: "Beige/Nude", den: 15, size: "", quantity: 1, officialPrice: 15.00, paidPrice: 0, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 4, manufacturer: "Kunert", name: "Chinchillan / ähnlich 20 (mit -30%)", color: "Nude", den: 20, size: "", quantity: 2, officialPrice: 15.00, paidPrice: 10.50, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 5, manufacturer: "Calzedonia", name: "Second Skin 15", color: "Nude", den: 15, size: "", quantity: 1, officialPrice: 13.95, paidPrice: 2.95, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 6, manufacturer: "Calzedonia", name: "Extremely Matt 20", color: "Nude/Moka", den: 20, size: "", quantity: 2, officialPrice: 14.95, paidPrice: 3.45, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 7, manufacturer: "Calzitaly", name: "Calzitaly (genaue Bezeichnung prüfen)", color: "", den: 0, size: "", quantity: 1, officialPrice: 0, paidPrice: 0, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 8, manufacturer: "Calzedonia", name: "Essential Matt 20", color: "Nude/Schwarz", den: 20, size: "", quantity: 1, officialPrice: 13.95, paidPrice: 3.45, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 9, manufacturer: "Kunert", name: "Chinchillan 20 (Run-Stop)", color: "Nude/Teint", den: 20, size: "", quantity: 1, officialPrice: 15.00, paidPrice: 0, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] },
+  { id: 10, manufacturer: "Calzedonia", name: "Totally Invisible 20", color: "Nude", den: 20, size: "", quantity: 1, officialPrice: 16.95, paidPrice: 3.10, purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [] }
+];
+
+let items = [];
+let currentFront = null;
+let currentBack = null;
+let currentExtra = [];
+let currentView = "cards";
+let currentTab = "collection";
+let sortColumn = null;
+let sortDir = 1;
+
+function load() {
+  const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("strumpfhose_sammlung_v6") || localStorage.getItem("strumpfhose_sammlung_v5") || localStorage.getItem("strumpfhose_sammlung_v4");
+  if (saved) {
+    items = JSON.parse(saved).map(i => {
+      const base = {
+        purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [], inCollection: true, priceHistory: [], category: "Strumpfhose",
+        ...i
+      };
+      if (!base.priceHistory || base.priceHistory.length === 0) {
+        if (base.paidPrice || base.quantity) {
+          base.priceHistory = [{ date: base.purchaseDate || "", price: base.paidPrice || 0, qty: base.quantity || 1 }];
+        }
+      }
+      return base;
+    });
+  } else {
+    items = defaultItems.map(i => ({
+      ...i,
+      inCollection: true,
+      priceHistory: i.paidPrice ? [{ date: i.purchaseDate || "", price: i.paidPrice || 0, qty: i.quantity || 1 }] : []
+    }));
+  }
+  const theme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  updateThemeButton();
+  updateFilterOptions();
+  render();
+  if (location.protocol === "file:" || location.hostname === "localhost" || location.hostname === "") {
+    document.getElementById("localHint").style.display = "block";
+  }
+}
+
+function updateFilterOptions() {
+  const manuSelect = document.getElementById("filterManufacturer");
+  const denSelect = document.getElementById("filterDen");
+  const colorSelect = document.getElementById("filterColor");
+  const curManu = manuSelect.value;
+  const curDen = denSelect.value;
+  const curColor = colorSelect.value;
+
+  const source = currentTab === "wishlist" ? items.filter(i => i.isWishlist) : items.filter(i => !i.isWishlist);
+  const manufacturers = [...new Set(source.map(i => i.manufacturer).filter(Boolean))].sort();
+  const dens = [...new Set(source.map(i => i.den).filter(d => d > 0))].sort((a,b)=>a-b);
+  const colors = [...new Set(source.map(i => i.color).filter(Boolean))].sort();
+
+  manuSelect.innerHTML = '<option value="">Alle Hersteller</option>';
+  manufacturers.forEach(m => {
+    const opt = document.createElement("option");
+    opt.value = m; opt.textContent = m;
+    manuSelect.appendChild(opt);
+  });
+  manuSelect.value = curManu;
+
+  denSelect.innerHTML = '<option value="">Alle Den</option>';
+  dens.forEach(d => {
+    const opt = document.createElement("option");
+    opt.value = d; opt.textContent = d + " Den";
+    denSelect.appendChild(opt);
+  });
+  denSelect.value = curDen;
+
+  colorSelect.innerHTML = '<option value="">Alle Farben</option>';
+  colors.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c; opt.textContent = c;
+    colorSelect.appendChild(opt);
+  });
+  colorSelect.value = curColor;
+}
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  const backups = JSON.parse(localStorage.getItem(BACKUP_KEY) || "[]");
+  backups.unshift({ ts: Date.now(), data: items });
+  if (backups.length > 5) backups.pop();
+  localStorage.setItem(BACKUP_KEY, JSON.stringify(backups));
+  updateFilterOptions();
+  render();
+}
+
+function getColorStyle(color) {
+  const c = (color || "").toLowerCase();
+  if (c.includes("schwarz") || c.includes("black")) return "#111";
+  if (c.includes("nude") || c.includes("beige") || c.includes("teint") || c.includes("moka")) return "#e8c4a0";
+  if (c.includes("braun") || c.includes("brown")) return "#a67c52";
+  return "#888";
+}
+
+function setView(view) {
+  currentView = view;
+  document.getElementById("btnCards").classList.toggle("active", view === "cards");
+  document.getElementById("btnList").classList.toggle("active", view === "list");
+  render();
+}
+
+function setTab(tab) {
+  currentTab = tab;
+  document.getElementById("tabCollection").classList.toggle("active", tab === "collection");
+  document.getElementById("tabWishlist").classList.toggle("active", tab === "wishlist");
+  document.getElementById("tabCalendar").classList.toggle("active", tab === "calendar");
+  document.getElementById("collectionControls").style.display = tab === "calendar" ? "none" : "flex";
+  updateFilterOptions();
+  render();
+}
+
+function resetFilters() {
+  document.getElementById("searchInput").value = "";
+  document.getElementById("filterManufacturer").value = "";
+  document.getElementById("filterDen").value = "";
+  document.getElementById("filterColor").value = "";
+  render();
+}
+
+function getFilteredSorted() {
+  const search = (document.getElementById("searchInput").value || "").toLowerCase();
+  const manu = document.getElementById("filterManufacturer").value;
+  const den = document.getElementById("filterDen").value;
+  const color = document.getElementById("filterColor").value;
+  const sort = document.getElementById("sortSelect").value;
+
+  let source = items.filter(i => currentTab === "wishlist" ? i.isWishlist : !i.isWishlist);
+
+  let filtered = source.filter(item => {
+    if (manu && item.manufacturer !== manu) return false;
+    if (den && String(item.den) !== den) return false;
+    if (color && item.color !== color) return false;
+    if (search) {
+      const hay = ((item.name || "") + " " + (item.color || "") + " " + (item.manufacturer || "") + " " + (item.notes || "") + " " + (item.store || "")).toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  return filtered.sort((a, b) => {
+    if (sortColumn) {
+      const va = a[sortColumn] || "";
+      const vb = b[sortColumn] || "";
+      if (typeof va === "number" && typeof vb === "number") return (va - vb) * sortDir;
+      return String(va).localeCompare(String(vb)) * sortDir;
+    }
+    if (sort === "manufacturer") return (a.manufacturer || "").localeCompare(b.manufacturer || "");
+    if (sort === "den") return (b.den || 0) - (a.den || 0);
+    if (sort === "price") return (b.paidPrice || 0) - (a.paidPrice || 0);
+    return (a.name || "").localeCompare(b.name || "");
+  });
+}
+
+function sortByColumn(col) {
+  if (sortColumn === col) sortDir *= -1;
+  else { sortColumn = col; sortDir = 1; }
+  render();
+}
+
+function renderCalendar() {
+  const container = document.getElementById("listContainer");
+  container.innerHTML = "";
+
+  const purchases = [];
+  items.forEach(item => {
+    if (item.isWishlist) return;
+    (item.priceHistory || []).forEach(h => {
+      if (h.date) {
+        purchases.push({
+          date: h.date,
+          qty: h.qty,
+          spent: h.price * h.qty,
+          name: item.name,
+          manufacturer: item.manufacturer
+        });
+      }
+    });
+  });
+
+  const byMonth = {};
+  purchases.forEach(p => {
+    const month = p.date.slice(0, 7);
+    if (!byMonth[month]) byMonth[month] = { qty: 0, spent: 0, items: [] };
+    byMonth[month].qty += p.qty;
+    byMonth[month].spent += p.spent;
+    byMonth[month].items.push(p);
+  });
+
+  const months = Object.keys(byMonth).sort().reverse();
+  if (months.length === 0) {
+    container.innerHTML = "<p style='text-align:center; color:var(--muted); padding:20px;'>Noch keine Käufe mit Datum erfasst.</p>";
+    return;
+  }
+
+  months.forEach(month => {
+    const data = byMonth[month];
+    const div = document.createElement("div");
+    div.className = "card";
+    div.style.flexDirection = "column";
+    const dateLabel = new Date(month + "-01").toLocaleDateString("de-DE", { year: "numeric", month: "long" });
+    div.innerHTML = `
+      <h3 style="margin-bottom:6px;">${dateLabel}</h3>
+      <div class="meta">${data.qty} Stück · ${data.spent.toFixed(2)} €</div>
+      <div style="font-size:0.8rem; margin-top:6px;">
+        ${data.items.map(i => `${i.qty}× ${i.manufacturer || ""} ${i.name || ""} (${i.spent.toFixed(2)} €)`).join("<br>")}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function render() {
+  if (currentTab === "calendar") {
+    renderCalendar();
+    return;
+  }
+  const container = document.getElementById("listContainer");
+  container.innerHTML = "";
+
+  const sorted = getFilteredSorted();
+
+  let totalCount = 0, totalOfficial = 0, totalPaid = 0;
+  let totalSpentAll = 0, totalSavedAll = 0, removedCount = 0;
+  const ownedItems = items.filter(i => !i.isWishlist);
+  ownedItems.forEach(item => {
+    const qty = item.quantity || 1;
+    totalSpentAll += (item.paidPrice || 0) * qty;
+    totalSavedAll += ((item.officialPrice || 0) - (item.paidPrice || 0)) * qty;
+    if (item.inCollection === false) removedCount += qty;
+  });
+  sorted.forEach(item => {
+    if (item.inCollection !== false) {
+      totalCount += item.quantity || 1;
+      totalOfficial += (item.officialPrice || 0) * (item.quantity || 1);
+      totalPaid += (item.paidPrice || 0) * (item.quantity || 1);
+    }
+  });
+
+  document.getElementById("totalCount").textContent = totalCount;
+  document.getElementById("totalOfficial").textContent = totalOfficial.toFixed(2) + " €";
+  document.getElementById("totalPaid").textContent = totalPaid.toFixed(2) + " €";
+  document.getElementById("totalSpentAll").textContent = totalSpentAll.toFixed(2) + " €";
+  document.getElementById("totalSavedAll").textContent = totalSavedAll.toFixed(2) + " €";
+  document.getElementById("removedCount").textContent = removedCount;
+
+  const allOwned = items.filter(i => !i.isWishlist);
+  const manuCount = {};
+  allOwned.forEach(i => { if (i.manufacturer) manuCount[i.manufacturer] = (manuCount[i.manufacturer] || 0) + (i.quantity || 1); });
+  const topManu = Object.entries(manuCount).sort((a,b) => b[1]-a[1])[0];
+  const denCount = {};
+  allOwned.forEach(i => { if (i.den) denCount[i.den] = (denCount[i.den] || 0) + 1; });
+  const topDen = Object.entries(denCount).sort((a,b) => b[1]-a[1])[0];
+  const avgPaid = allOwned.length ? (allOwned.reduce((s,i) => s + (i.paidPrice||0), 0) / allOwned.length).toFixed(2) : "0";
+  const totalSaved = allOwned.reduce((s,i) => s + ((i.officialPrice||0) - (i.paidPrice||0)) * (i.quantity||1), 0).toFixed(2);
+  document.getElementById("statsBar").innerHTML = 
+    `Top Hersteller: ${topManu ? topManu[0] + " (" + topManu[1] + ")" : "–"} · Häufigste Den: ${topDen ? topDen[0] : "–"} · Ø bezahlt: ${avgPaid} € · Aktuelle Sammlung: ${totalCount} Stk. / ${totalPaid.toFixed(2)} €`;
+
+  if (currentView === "list") {
+    const wrap = document.createElement("div");
+    wrap.className = "table-wrap";
+    const table = document.createElement("table");
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Bild</th>
+          <th onclick="sortByColumn('manufacturer')">Hersteller</th>
+          <th onclick="sortByColumn('name')">Modell</th>
+          <th onclick="sortByColumn('color')">Farbe</th>
+          <th onclick="sortByColumn('den')">Den</th>
+          <th onclick="sortByColumn('size')">Größe</th>
+          <th onclick="sortByColumn('quantity')">Stk</th>
+          <th onclick="sortByColumn('paidPrice')">Bezahlt</th>
+          <th onclick="sortByColumn('officialPrice')">Offiziell</th>
+          <th onclick="sortByColumn('wearCount')">Getragen</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
+    sorted.forEach(item => {
+      const tr = document.createElement("tr");
+      if (item.inCollection === false) tr.className = "removed";
+      let thumb = item.frontThumb ? `<img src="${item.frontThumb}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="openLightbox('${item.frontThumb}')">` : "–";
+      tr.innerHTML = `
+        <td>${thumb}</td>
+        <td>${item.manufacturer || ""}</td>
+        <td>${item.name || ""}</td>
+        <td>${item.color || ""}</td>
+        <td>${item.den || ""}</td>
+        <td>${item.size || ""}</td>
+        <td>${item.quantity || 1}</td>
+        <td>${(item.paidPrice || 0).toFixed(2)} €</td>
+        <td>${(item.officialPrice || 0).toFixed(2)} €</td>
+        <td>${item.wearCount || 0}</td>
+        <td class="actions">
+          <button class="secondary" onclick="editItem(${item.id})">✎</button>
+          <button class="secondary" onclick="duplicateItem(${item.id})">⧉</button>
+          <button class="secondary" onclick="deleteItem(${item.id})">🗑</button>
+          ${!item.isWishlist ? `<button class="secondary" onclick="incrementWearToday(${item.id})">Heute</button>` : ""}
+          ${!item.isWishlist ? `<button class="secondary" onclick="toggleInCollection(${item.id})">${item.inCollection !== false ? "Entfernen" : "Wieder aufnehmen"}</button>` : ""}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+    wrap.appendChild(table);
+    container.appendChild(wrap);
+  } else {
+    const list = document.createElement("div");
+    list.className = "list";
+    sorted.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card" + (item.inCollection === false ? " removed" : "");
+      let thumbHtml = "";
+      if (item.frontThumb) thumbHtml += `<img src="${item.frontThumb}" alt="Vorder" onclick="openLightbox('${item.frontThumb}')">`;
+      if (item.backThumb) thumbHtml += `<img src="${item.backThumb}" alt="Rück" onclick="openLightbox('${item.backThumb}')">`;
+      (item.extraPhotos || []).forEach(p => thumbHtml += `<img src="${p}" alt="Extra" onclick="openLightbox('${p}')">`);
+      if (!thumbHtml) thumbHtml = `<div class="color-dot" style="background:${getColorStyle(item.color)}">🧦</div>`;
+
+      card.innerHTML = `
+        <div class="thumbs">${thumbHtml}</div>
+        <div class="info">
+          <h3>${item.manufacturer || ""} – ${item.name || ""}</h3>
+          <div class="meta">${item.category || "Strumpfhose"} · ${item.color || "Farbe?"} · ${item.den || "?"} Den · Größe ${item.size || "?"} · ${item.quantity || 1} Stk.</div>
+          <div class="prices">
+            <span>Offiziell: ${(item.officialPrice || 0).toFixed(2)} €</span>
+            <span>Bezahlt: ${(item.paidPrice || 0).toFixed(2)} €</span>
+          </div>
+          ${item.purchaseDate ? `<div class="meta">Kauf: ${item.purchaseDate}</div>` : ""}
+          ${item.priceHistory && item.priceHistory.length > 1 ? `<div class="meta">Preise: ${item.priceHistory.map(h => h.qty + "× " + h.price.toFixed(2) + "€").join(", ")}</div>` : ""}
+          ${item.store ? `<div class="meta">Laden: ${item.store}</div>` : ""}
+          ${item.condition ? `<div class="meta">Zustand: ${item.condition}</div>` : ""}
+          <div class="meta">Getragen: ${item.wearCount || 0}× ${item.lastWearDate ? "(zuletzt: " + item.lastWearDate + ")" : ""}</div>
+          ${item.notes ? `<div class="meta">Notiz: ${item.notes}</div>` : ""}
+          <div class="actions">
+            <button class="secondary" onclick="editItem(${item.id})">Bearbeiten</button>
+            <button class="secondary" onclick="duplicateItem(${item.id})">Duplizieren</button>
+            <button class="secondary" onclick="deleteItem(${item.id})">Löschen</button>
+            ${!item.isWishlist ? `<button class="secondary" onclick="incrementWearToday(${item.id})">Heute getragen</button>` : ""}
+            ${!item.isWishlist ? `<button class="secondary" onclick="toggleInCollection(${item.id})">${item.inCollection !== false ? "Aus Sammlung entfernen" : "Wieder aufnehmen"}</button>` : ""}
+          </div>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+    container.appendChild(list);
+  }
+}
+
+let currentPriceHistory = [];
+
+function updatePriceHistoryUI() {
+  const list = document.getElementById("priceHistoryList");
+  list.innerHTML = "";
+  let totalQty = 0, totalPaid = 0;
+  currentPriceHistory.forEach((h, idx) => {
+    const div = document.createElement("div");
+    div.style.marginBottom = "4px";
+    div.innerHTML = `${h.date || "–"} · ${h.qty}× ${h.price.toFixed(2)} € 
+      <button type="button" class="secondary" style="padding:2px 6px; font-size:0.7rem;" onclick="removePriceHistory(${idx})">×</button>`;
+    list.appendChild(div);
+    totalQty += h.qty;
+    totalPaid += h.price * h.qty;
+  });
+  document.getElementById("quantity").value = totalQty || 1;
+  document.getElementById("paidPrice").value = totalQty ? (totalPaid / totalQty).toFixed(2) : "0";
+}
+
+function addPriceHistory() {
+  const date = document.getElementById("newHistDate").value;
+  const price = parseFloat(document.getElementById("newHistPrice").value) || 0;
+  const qty = parseInt(document.getElementById("newHistQty").value) || 1;
+  if (price > 0 || date) {
+    currentPriceHistory.push({ date, price, qty });
+    document.getElementById("newHistDate").value = "";
+    document.getElementById("newHistPrice").value = "";
+    document.getElementById("newHistQty").value = "1";
+    updatePriceHistoryUI();
+  }
+}
+
+function removePriceHistory(idx) {
+  currentPriceHistory.splice(idx, 1);
+  updatePriceHistoryUI();
+}
+
+function openModal(id = null) {
+  document.getElementById("modal").classList.add("show");
+  document.getElementById("form").reset();
+  document.getElementById("editId").value = id || "";
+  document.getElementById("modalTitle").textContent = id ? "Bearbeiten" : (currentTab === "wishlist" ? "Neuer Wishlist-Eintrag" : "Neuer Eintrag");
+  document.getElementById("photoPreview").innerHTML = "";
+  document.getElementById("ocrStatus").textContent = "";
+  currentFront = null;
+  currentBack = null;
+  currentExtra = [];
+  currentPriceHistory = [];
+  if (id) {
+    const item = items.find(i => i.id === id);
+    if (item) {
+      document.getElementById("manufacturer").value = item.manufacturer || "";
+      document.getElementById("category").value = item.category || "Strumpfhose";
+      document.getElementById("name").value = item.name || "";
+      document.getElementById("color").value = item.color || "";
+      document.getElementById("den").value = item.den || "";
+      document.getElementById("size").value = item.size || "";
+      document.getElementById("officialPrice").value = item.officialPrice || "";
+      document.getElementById("store").value = item.store || "";
+      document.getElementById("condition").value = item.condition || "";
+      document.getElementById("wearCount").value = item.wearCount || 0;
+      document.getElementById("notes").value = item.notes || "";
+      currentFront = item.frontThumb || null;
+      currentBack = item.backThumb || null;
+      currentExtra = item.extraPhotos || [];
+      currentPriceHistory = item.priceHistory ? [...item.priceHistory] : [];
+      updatePhotoPreview();
+      updatePriceHistoryUI();
+    }
+  } else {
+    updatePriceHistoryUI();
+  }
+}
+
+function updatePhotoPreview() {
+  const preview = document.getElementById("photoPreview");
+  preview.innerHTML = "";
+  if (currentFront) preview.innerHTML += `<img src="${currentFront}" onclick="openLightbox('${currentFront}')">`;
+  if (currentBack) preview.innerHTML += `<img src="${currentBack}" onclick="openLightbox('${currentBack}')">`;
+  currentExtra.forEach(p => preview.innerHTML += `<img src="${p}" onclick="openLightbox('${p}')">`);
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+}
+
+async function compressImage(file, maxWidth = 600) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const scale = Math.min(1, maxWidth / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL("image/jpeg", 0.65));
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+async function previewFromFile(input, target) {
+  if (!input.files || !input.files[0]) return;
+  if (target === "extra") {
+    for (const file of input.files) {
+      const dataUrl = await compressImage(file);
+      currentExtra.push(dataUrl);
+    }
+  } else {
+    const dataUrl = await compressImage(input.files[0]);
+    if (target === "front") currentFront = dataUrl;
+    else currentBack = dataUrl;
+  }
+  updatePhotoPreview();
+}
+
+async function runOCR() {
+  const status = document.getElementById("ocrStatus");
+  status.textContent = "OCR läuft … bitte warten";
+  let fullText = "";
+  const images = [currentFront, currentBack, ...currentExtra].filter(Boolean);
+
+  try {
+    for (const img of images) {
+      const res = await Tesseract.recognize(img, "deu+eng");
+      fullText += res.data.text + "\n";
+    }
+    status.textContent = "OCR fertig. Erkannte Felder wurden ausgefüllt. Bitte prüfen!";
+    parseText(fullText);
+  } catch (err) {
+    status.textContent = "OCR-Fehler: " + err.message;
+  }
+}
+
+function parseText(text) {
+  const t = text.toUpperCase();
+  let filled = [];
+  if (t.includes("CALZEDONIA")) { document.getElementById("manufacturer").value = "Calzedonia"; filled.push("Hersteller"); }
+  else if (t.includes("KUNERT")) { document.getElementById("manufacturer").value = "Kunert"; filled.push("Hersteller"); }
+  else if (t.includes("CALZITALY")) { document.getElementById("manufacturer").value = "Calzitaly"; filled.push("Hersteller"); }
+
+  const denMatch = text.match(/(\d{1,3})\s*(DEN|DENIER)/i);
+  if (denMatch) { document.getElementById("den").value = denMatch[1]; filled.push("Den"); }
+
+  const priceMatch = text.match(/(\d+[.,]\d{2})\s*€/);
+  if (priceMatch) {
+    const p = parseFloat(priceMatch[1].replace(",", "."));
+    if (!document.getElementById("paidPrice").value) {
+      document.getElementById("paidPrice").value = p;
+      filled.push("Preis");
+    }
+  }
+
+  const sizeMatch = text.match(/\b(S|M|L|XL|XXL|\d{2}-\d{2}|\d)\b/i);
+  if (sizeMatch && !document.getElementById("size").value) {
+    document.getElementById("size").value = sizeMatch[1];
+    filled.push("Größe");
+  }
+
+  const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 8);
+  if (lines.length && !document.getElementById("name").value) {
+    document.getElementById("name").value = lines[0].substring(0, 60);
+    filled.push("Name");
+  }
+
+  if (filled.length) {
+    document.getElementById("ocrStatus").textContent += " Ausgefüllt: " + filled.join(", ");
+  }
+}
+
+function saveItem(e) {
+  e.preventDefault();
+  const id = document.getElementById("editId").value;
+  const data = {
+    manufacturer: document.getElementById("manufacturer").value.trim(),
+    name: document.getElementById("name").value.trim(),
+    color: document.getElementById("color").value.trim(),
+    den: parseInt(document.getElementById("den").value) || 0,
+    size: document.getElementById("size").value.trim(),
+    officialPrice: parseFloat(document.getElementById("officialPrice").value) || 0,
+    store: document.getElementById("store").value.trim(),
+    condition: document.getElementById("condition").value,
+    wearCount: parseInt(document.getElementById("wearCount").value) || 0,
+    notes: document.getElementById("notes").value.trim(),
+    frontThumb: currentFront || null,
+    backThumb: currentBack || null,
+    extraPhotos: currentExtra,
+    isWishlist: currentTab === "wishlist",
+    priceHistory: currentPriceHistory,
+    category: document.getElementById("category").value
+  };
+
+  let totalQty = 0, totalPaid = 0;
+  currentPriceHistory.forEach(h => {
+    totalQty += h.qty;
+    totalPaid += h.price * h.qty;
+  });
+  data.quantity = totalQty || 1;
+  data.paidPrice = totalQty ? totalPaid / totalQty : 0;
+  data.purchaseDate = currentPriceHistory.length ? currentPriceHistory[0].date : "";
+  if (!data.priceHistory) data.priceHistory = [];
+
+  if (id) {
+    const idx = items.findIndex(i => i.id == id);
+    if (idx >= 0) items[idx] = { ...items[idx], ...data };
+  } else {
+    data.id = Date.now();
+    data.lastWearDate = "";
+    data.inCollection = true;
+    items.push(data);
+  }
+  save();
+  closeModal();
+}
+
+function editItem(id) { openModal(id); }
+
+function duplicateItem(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  const copy = { ...item, id: Date.now(), name: item.name + " (Kopie)" };
+  items.push(copy);
+  save();
+}
+
+function deleteItem(id) {
+  if (confirm("Wirklich löschen?")) {
+    items = items.filter(i => i.id !== id);
+    save();
+  }
+}
+
+function toggleInCollection(id) {
+  const item = items.find(i => i.id === id);
+  if (item) {
+    item.inCollection = item.inCollection === false ? true : false;
+    save();
+  }
+}
+
+function incrementWearToday(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  const today = new Date().toISOString().slice(0, 10);
+  if (item.lastWearDate === today) {
+    alert("Heute bereits gezählt!");
+    return;
+  }
+  item.wearCount = (item.wearCount || 0) + 1;
+  item.lastWearDate = today;
+  save();
+}
+
+function exportData(format) {
+  const data = getFilteredSorted();
+  if (format === "csv") {
+    const headers = ["Hersteller","Name","Farbe","Den","Größe","Stück","Offiziell","Bezahlt","Kaufdatum","Laden","Zustand","Getragen","Notizen","Wishlist"];
+    const rows = data.map(i => [
+      i.manufacturer||"", i.name||"", i.color||"", i.den||"", i.size||"", i.quantity||1,
+      i.officialPrice||0, i.paidPrice||0, i.purchaseDate||"", i.store||"", i.condition||"",
+      i.wearCount||0, (i.notes||"").replace(/"/g,'""'), i.isWishlist ? "ja" : "nein"
+    ].map(v => `"${v}"`).join(","));
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "strumpfhose-sammlung.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } else {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "strumpfhose-sammlung.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (Array.isArray(imported)) {
+        items = imported.map(i => ({
+          purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [],
+          ...i
+        }));
+        save();
+        alert("Import erfolgreich!");
+      } else {
+        alert("Ungültiges Format");
+      }
+    } catch (err) {
+      alert("Fehler beim Import: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+function showBackups() {
+  const backups = JSON.parse(localStorage.getItem(BACKUP_KEY) || "[]");
+  if (!backups.length) {
+    alert("Keine Backups vorhanden.");
+    return;
+  }
+  const list = backups.map((b, i) => `${i+1}. ${new Date(b.ts).toLocaleString()}`).join("\n");
+  const choice = prompt("Backups:\n" + list + "\n\nNummer zum Wiederherstellen eingeben (oder abbrechen):");
+  const idx = parseInt(choice) - 1;
+  if (!isNaN(idx) && backups[idx]) {
+    if (confirm("Wirklich dieses Backup wiederherstellen?")) {
+      items = backups[idx].data;
+      save();
+      alert("Wiederhergestellt!");
+    }
+  }
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme") || "light";
+  const next = current === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+  updateThemeButton();
+}
+
+function updateThemeButton() {
+  const btn = document.querySelector(".theme-toggle");
+  const theme = document.documentElement.getAttribute("data-theme");
+  btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  document.getElementById("themeColor").content = theme === "dark" ? "#1a1614" : "#faf6f2";
+}
+
+function openLightbox(src) {
+  document.getElementById("lightboxImg").src = src;
+  document.getElementById("lightbox").classList.add("show");
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("show");
+}
+
+// Basic Service Worker registration for offline (minimal)
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("data:text/javascript,self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>e.respondWith(fetch(e.request).catch(()=>new Response('Offline'))))").catch(()=>{});
+}
+
+load();
+</script>
+</body>
+</html>
