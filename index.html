@@ -237,18 +237,21 @@ tr.removed { opacity: 0.55; }
       <input type="hidden" id="editId">
       
       <div class="photo-controls">
-        <label>
-          Vorderseite wählen<br>
-          <input type="file" accept="image/*" onchange="previewFromFile(this, 'front')" style="margin-top:4px; width:100%;">
-        </label>
-        <label>
-          Rückseite wählen<br>
-          <input type="file" accept="image/*" onchange="previewFromFile(this, 'back')" style="margin-top:4px; width:100%;">
-        </label>
-        <label>
-          Weitere Fotos<br>
-          <input type="file" accept="image/*" multiple onchange="previewFromFile(this, 'extra')" style="margin-top:4px; width:100%;">
-        </label>
+        <div style="flex:1; text-align:center;">
+          <button type="button" class="secondary" onclick="document.getElementById('camFront').click()" style="width:100%;">📷 Vorderseite</button>
+          <input type="file" id="camFront" accept="image/*" capture="environment" onchange="previewFromFile(this, 'front')" style="display:none;">
+          <br><small style="color:var(--muted);">oder <label style="color:var(--accent); cursor:pointer;"><input type="file" accept="image/*" onchange="previewFromFile(this, 'front')" style="display:none;">Galerie</label></small>
+        </div>
+        <div style="flex:1; text-align:center;">
+          <button type="button" class="secondary" onclick="document.getElementById('camBack').click()" style="width:100%;">📷 Rückseite</button>
+          <input type="file" id="camBack" accept="image/*" capture="environment" onchange="previewFromFile(this, 'back')" style="display:none;">
+          <br><small style="color:var(--muted);">oder <label style="color:var(--accent); cursor:pointer;"><input type="file" accept="image/*" onchange="previewFromFile(this, 'back')" style="display:none;">Galerie</label></small>
+        </div>
+        <div style="flex:1; text-align:center;">
+          <button type="button" class="secondary" onclick="document.getElementById('camExtra').click()" style="width:100%;">📷 Weitere</button>
+          <input type="file" id="camExtra" accept="image/*" capture="environment" multiple onchange="previewFromFile(this, 'extra')" style="display:none;">
+          <br><small style="color:var(--muted);">oder <label style="color:var(--accent); cursor:pointer;"><input type="file" accept="image/*" multiple onchange="previewFromFile(this, 'extra')" style="display:none;">Galerie</label></small>
+        </div>
       </div>
       <div class="photo-preview" id="photoPreview"></div>
       <button type="button" class="secondary" onclick="runOCR()" style="width:100%; margin-bottom:10px;">Daten aus Fotos auslesen (OCR)</button>
@@ -306,7 +309,7 @@ tr.removed { opacity: 0.55; }
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
-const STORAGE_KEY = "strumpfhose_sammlung_v10";
+const STORAGE_KEY = "strumpfhose_sammlung_v11";
 const BACKUP_KEY = "strumpfhose_backup";
 
 const defaultItems = [
