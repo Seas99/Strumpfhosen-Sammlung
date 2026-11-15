@@ -125,14 +125,11 @@ button.secondary { background: var(--accent2); }
 .modal.show { display: flex; }
 .modal-content {
   background: var(--card); border-radius: 20px; padding: 16px; width: 100%;
-  max-width: 420px; max-height: 85vh; overflow-y: auto;
+  max-width: 420px; max-height: 90vh; overflow-y: auto;
   border: 1px solid var(--border);
-  padding-bottom: 100px;
 }
 .form-actions {
   display: flex; gap: 8px; margin-top: 12px;
-  position: sticky; bottom: 0; background: var(--card);
-  padding: 12px 0; z-index: 10;
 }
 .form-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; }
@@ -195,37 +192,48 @@ tr.removed { opacity: 0.55; }
 
 <div class="stats" id="statsBar"></div>
 
-<div class="controls" id="collectionControls">
-  <input type="text" id="searchInput" placeholder="Suche (Name, Farbe, Notizen, Laden…)" oninput="render()">
-  <select id="filterManufacturer" onchange="render()">
-    <option value="">Alle Hersteller</option>
-  </select>
-  <select id="filterDen" onchange="render()">
-    <option value="">Alle Den</option>
-  </select>
-  <select id="filterColor" onchange="render()">
-    <option value="">Alle Farben</option>
-  </select>
-  <select id="sortSelect" onchange="render()">
-    <option value="name">Nach Name</option>
-    <option value="manufacturer">Nach Hersteller</option>
-    <option value="den">Nach Den</option>
-    <option value="price">Nach Preis (bezahlt)</option>
-  </select>
-  <button class="secondary" onclick="resetFilters()">Filter zurücksetzen</button>
-  <div class="view-toggle">
-    <button id="btnCards" class="active" onclick="setView('cards')">Karten</button>
-    <button id="btnList" onclick="setView('list')">Liste</button>
-  </div>
-  <button onclick="openModal()">+ Neu</button>
+<div style="display:flex; gap:8px; margin-bottom:12px;">
+  <button onclick="openModal()" style="flex:1;">+ Neuer Eintrag</button>
+  <button class="secondary" onclick="toggleTools()" style="flex:1;">⚙ Filter & Tools</button>
 </div>
 
-<div class="export-import">
-  <button class="secondary" onclick="exportData('json')">Export JSON (gefiltert)</button>
-  <button class="secondary" onclick="exportData('csv')">Export CSV (gefiltert)</button>
-  <button class="secondary" onclick="document.getElementById('importFile').click()">Import JSON</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-  <button class="secondary" onclick="showBackups()">Backups anzeigen</button>
+<div id="toolsPanel" style="display:none; background:var(--card); border-radius:16px; padding:12px; margin-bottom:12px; border:1px solid var(--border);">
+  <div style="margin-bottom:12px;">
+    <div style="font-size:0.85rem; color:var(--muted); margin-bottom:6px; font-weight:600;">Filter & Suche</div>
+    <div class="controls" id="collectionControls">
+      <input type="text" id="searchInput" placeholder="Suche (Name, Farbe, Notizen, Laden…)" oninput="render()">
+      <select id="filterManufacturer" onchange="render()">
+        <option value="">Alle Hersteller</option>
+      </select>
+      <select id="filterDen" onchange="render()">
+        <option value="">Alle Den</option>
+      </select>
+      <select id="filterColor" onchange="render()">
+        <option value="">Alle Farben</option>
+      </select>
+      <select id="sortSelect" onchange="render()">
+        <option value="name">Nach Name</option>
+        <option value="manufacturer">Nach Hersteller</option>
+        <option value="den">Nach Den</option>
+        <option value="price">Nach Preis (bezahlt)</option>
+      </select>
+      <button class="secondary" onclick="resetFilters()">Filter zurücksetzen</button>
+      <div class="view-toggle">
+        <button id="btnCards" class="active" onclick="setView('cards')">Karten</button>
+        <button id="btnList" onclick="setView('list')">Liste</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="font-size:0.85rem; color:var(--muted); margin-bottom:6px; font-weight:600;">Import / Export</div>
+    <div class="export-import" style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="secondary" onclick="exportData('json')" style="flex:1;">Export JSON</button>
+      <button class="secondary" onclick="exportData('csv')" style="flex:1;">Export CSV</button>
+      <button class="secondary" onclick="document.getElementById('importFile').click()" style="flex:1;">Import JSON</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="secondary" onclick="showBackups()" style="flex:1;">Backups</button>
+    </div>
+  </div>
 </div>
 
 <div id="listContainer"></div>
@@ -257,6 +265,12 @@ tr.removed { opacity: 0.55; }
       <button type="button" class="secondary" onclick="runOCR()" style="width:100%; margin-bottom:10px;">Daten aus Fotos auslesen (OCR)</button>
       <div id="ocrStatus"></div>
 
+      <div class="form-group"><label>Art</label>
+        <select id="itemType" onchange="toggleTypeFields()">
+          <option value="neu">Originalverpackt neu</option>
+          <option value="gebraucht">Gebraucht</option>
+        </select>
+      </div>
       <div class="form-group"><label>Kategorie</label>
         <select id="category">
           <option value="Strumpfhose">Strumpfhose</option>
@@ -309,7 +323,7 @@ tr.removed { opacity: 0.55; }
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
-const STORAGE_KEY = "strumpfhose_sammlung_v11";
+const STORAGE_KEY = "strumpfhose_sammlung_v12";
 const BACKUP_KEY = "strumpfhose_backup";
 
 const defaultItems = [
@@ -339,7 +353,7 @@ function load() {
   if (saved) {
     items = JSON.parse(saved).map(i => {
       const base = {
-        purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [], inCollection: true, priceHistory: [], category: "Strumpfhose",
+        purchaseDate: "", store: "", condition: "", notes: "", wearCount: 0, lastWearDate: "", isWishlist: false, extraPhotos: [], inCollection: true, priceHistory: [], category: "Strumpfhose", itemType: "neu",
         ...i
       };
       if (!base.priceHistory || base.priceHistory.length === 0) {
@@ -429,11 +443,17 @@ function setView(view) {
   render();
 }
 
+function toggleTools() {
+  const panel = document.getElementById("toolsPanel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+}
+
 function setTab(tab) {
   currentTab = tab;
   document.getElementById("tabCollection").classList.toggle("active", tab === "collection");
   document.getElementById("tabWishlist").classList.toggle("active", tab === "wishlist");
   document.getElementById("tabCalendar").classList.toggle("active", tab === "calendar");
+  document.getElementById("toolsPanel").style.display = "none";
   document.getElementById("collectionControls").style.display = tab === "calendar" ? "none" : "flex";
   updateFilterOptions();
   render();
@@ -551,12 +571,17 @@ function render() {
 
   let totalCount = 0, totalOfficial = 0, totalPaid = 0;
   let totalSpentAll = 0, totalSavedAll = 0, removedCount = 0;
+  let neuCount = 0, gebrauchtCount = 0;
   const ownedItems = items.filter(i => !i.isWishlist);
   ownedItems.forEach(item => {
     const qty = item.quantity || 1;
     totalSpentAll += (item.paidPrice || 0) * qty;
     totalSavedAll += ((item.officialPrice || 0) - (item.paidPrice || 0)) * qty;
     if (item.inCollection === false) removedCount += qty;
+    if (item.inCollection !== false) {
+      if (item.itemType === "gebraucht") gebrauchtCount += qty;
+      else neuCount += qty;
+    }
   });
   sorted.forEach(item => {
     if (item.inCollection !== false) {
@@ -583,7 +608,7 @@ function render() {
   const avgPaid = allOwned.length ? (allOwned.reduce((s,i) => s + (i.paidPrice||0), 0) / allOwned.length).toFixed(2) : "0";
   const totalSaved = allOwned.reduce((s,i) => s + ((i.officialPrice||0) - (i.paidPrice||0)) * (i.quantity||1), 0).toFixed(2);
   document.getElementById("statsBar").innerHTML = 
-    `Top Hersteller: ${topManu ? topManu[0] + " (" + topManu[1] + ")" : "–"} · Häufigste Den: ${topDen ? topDen[0] : "–"} · Ø bezahlt: ${avgPaid} € · Aktuelle Sammlung: ${totalCount} Stk. / ${totalPaid.toFixed(2)} €`;
+    `Originalverpackt: ${neuCount} · Gebraucht: ${gebrauchtCount} · Top Hersteller: ${topManu ? topManu[0] + " (" + topManu[1] + ")" : "–"} · Häufigste Den: ${topDen ? topDen[0] : "–"}`;
 
   if (currentView === "list") {
     const wrap = document.createElement("div");
@@ -651,7 +676,7 @@ function render() {
         <div class="thumbs">${thumbHtml}</div>
         <div class="info">
           <h3>${item.manufacturer || ""} – ${item.name || ""}</h3>
-          <div class="meta">${item.category || "Strumpfhose"} · ${item.color || "Farbe?"} · ${item.den || "?"} Den · Größe ${item.size || "?"} · ${item.quantity || 1} Stk.</div>
+          <div class="meta">${item.category || "Strumpfhose"} · ${item.itemType === "gebraucht" ? "Gebraucht" : "Originalverpackt"} · ${item.color || "Farbe?"} · ${item.den || "?"} Den · Größe ${item.size || "?"} · ${item.quantity || 1} Stk.</div>
           <div class="prices">
             <span>Offiziell: ${(item.officialPrice || 0).toFixed(2)} €</span>
             <span>Bezahlt: ${(item.paidPrice || 0).toFixed(2)} €</span>
@@ -714,6 +739,19 @@ function removePriceHistory(idx) {
   updatePriceHistoryUI();
 }
 
+function toggleTypeFields() {
+  const type = document.getElementById("itemType").value;
+  const priceSection = document.querySelector("#priceHistoryList").parentElement;
+  const officialPrice = document.getElementById("officialPrice").parentElement;
+  if (type === "gebraucht") {
+    priceSection.style.display = "none";
+    officialPrice.style.display = "none";
+  } else {
+    priceSection.style.display = "";
+    officialPrice.style.display = "";
+  }
+}
+
 function openModal(id = null) {
   document.getElementById("modal").classList.add("show");
   document.getElementById("form").reset();
@@ -730,6 +768,7 @@ function openModal(id = null) {
     if (item) {
       document.getElementById("manufacturer").value = item.manufacturer || "";
       document.getElementById("category").value = item.category || "Strumpfhose";
+      document.getElementById("itemType").value = item.itemType || "neu";
       document.getElementById("name").value = item.name || "";
       document.getElementById("color").value = item.color || "";
       document.getElementById("den").value = item.den || "";
@@ -749,6 +788,7 @@ function openModal(id = null) {
   } else {
     updatePriceHistoryUI();
   }
+  toggleTypeFields();
 }
 
 function updatePhotoPreview() {
@@ -867,7 +907,8 @@ function saveItem(e) {
     extraPhotos: currentExtra,
     isWishlist: currentTab === "wishlist",
     priceHistory: currentPriceHistory,
-    category: document.getElementById("category").value
+    category: document.getElementById("category").value,
+    itemType: document.getElementById("itemType").value
   };
 
   let totalQty = 0, totalPaid = 0;
